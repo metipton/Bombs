@@ -3,17 +3,13 @@ using System.Collections;
 
 public class PowerPick : MonoBehaviour
 {
+    //This script is attached to the player game object and is used to track the pickup of power ups.
+
     public static int PowerUpLevel;
-    // Use this for initialization
+
     void Awake()
     {
         PowerUpLevel = 0;
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-
     }
 
     void OnTriggerEnter(Collider other)

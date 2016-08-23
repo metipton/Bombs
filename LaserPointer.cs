@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 public class LaserPointer : MonoBehaviour {
+
+    // This script is attached to the right controller.  It casts a ray in the transform.forward direction and tests for collisions.  If it collides
+    // with any of the described gameobjects, it will draw a line from the end of the gun barrel on the controller to that point.  If it misses, it
+    // just draws a line of length 10 into space.  Also has the logic that feeds into laser_shooter script for the trigger.
 
     public static Vector3 laserhitpoint;
     public static Transform shooterPos;
@@ -12,15 +15,13 @@ public class LaserPointer : MonoBehaviour {
     private LineRenderer laserpointer;
     private SteamVR_TrackedObject rightcontroller;
     
-
-
-    void Awake () {
+    void Awake ()
+    {
         rightcontroller = GetComponent<SteamVR_TrackedObject>();
         laserpointer = GetComponent<LineRenderer>();
         laserpointer.SetWidth(.005f, .005f);
     }
 	
-
 	void Update ()
     { 
         Laserpoint();
@@ -55,11 +56,10 @@ public class LaserPointer : MonoBehaviour {
         if (device.GetTouchDown(SteamVR_Controller.ButtonMask.TouchPad)) // have weird issue where touchpad and trigger are switched.  Not sure why.
         {
             IsRightTrigDown = true;
-
         }
+
         if (device.GetTouchUp(SteamVR_Controller.ButtonMask.TouchPad)) // have weird issue where touchpad and trigger are switched.  Not sure why.
         {
-
             IsRightTrigDown = false;
         }
     }

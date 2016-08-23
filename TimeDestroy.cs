@@ -2,15 +2,17 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class TimeDestroy : MonoBehaviour {
+public class TimeDestroy : MonoBehaviour
+{
+    // This script is attached to the dropped bombs gameobjects and controls the explosions for the dropped bombs.  
+
     public GameObject explosion; // blow up thangs (particle system)
-    public GameObject explosionCloud;
     public GameObject CubeExplosion; // replacing cubes with crumbling cubes
     public Transform playerShot; // transform for positioning when raycasting to check for collisions
     public Rigidbody Playerkilled; // Rigidbody we are applying the explosion force to.
     public GameObject playerOnFire;// These two game objects are for finding the child particle system of player
     public GameObject FireSystem;// and then enabling once the player is killed
-    public GameObject whitesmoke;
+    public GameObject whitesmoke; // this is the explosion "Cloud" game object
     public static bool isPlayerAlive = true;
 
 
@@ -36,12 +38,11 @@ public class TimeDestroy : MonoBehaviour {
             Casting(Vector3.right);
             Instantiate(explosion, transform.position, transform.rotation); // graphic for explosion
             Destroy(this.gameObject, 0f); //removes instantiated bomb
-            Bomb_Pickup.bombcount += 1;
-            
+            Bomb_Pickup.bombcount += 1;           
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other) // If another instantiated cloud hits a bomb, it will cause those bombs to blow up.
     {
         if(other.gameObject.CompareTag("Cloud"))
         {
@@ -49,7 +50,7 @@ public class TimeDestroy : MonoBehaviour {
         }
     }
 
-    void CastAtPlayer()
+    void CastAtPlayer() // Casts ray from bomb to player of length of explosion. If hits, then the player dies
     {
         RaycastHit hit;
         Vector3 direction = -transform.position + playerShot.position;
@@ -67,7 +68,7 @@ public class TimeDestroy : MonoBehaviour {
         }
     }
 
-    void Casting(Vector3 direction) // Casts a ray in the forward direction to interact with cubes
+    void Casting(Vector3 direction) // Casts a ray in the vector 3 direction to test for what it hits.  Based on what it hits is how far the explosion clouds are instantiated
     {
         Vector3 BombPosition = transform.position;
         RaycastHit hit;
@@ -110,7 +111,6 @@ public class TimeDestroy : MonoBehaviour {
                 Instantiate(CubeExplosion, hit.collider.gameObject.transform.position, Quaternion.identity); //replaces gameobject with a fragmented gameobject to explose
                 hit.collider.gameObject.SetActive(false); //deactivates original gameobject
             }
-
             else if (hit.collider.tag == ("Cube")) //checks for if raycast hits collider with tag Cube. Prevents casting explosion in pillars
             {
                 return;
@@ -147,9 +147,7 @@ public class TimeDestroy : MonoBehaviour {
                     BombPosition.x = transform.position.x + (directionalSign * i);
                     Instantiate(whitesmoke, BombPosition, Quaternion.identity);
                 }
-
             }
-
             else
             {
                 for (float i = 0; i <= hit.distance; i += 0.2f)//instantiates explosion cloud from bomb to end of ray
@@ -175,9 +173,7 @@ public class TimeDestroy : MonoBehaviour {
                 Instantiate(whitesmoke, BombPosition, Quaternion.identity);
             }
         }
-
     }
-
 }
 
 

@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TimeForSmoke : MonoBehaviour {
+public class TimeForSmoke : MonoBehaviour
+{
+    //This script is attached to the explosion cloud game object.  Current "problem child" script. Renderers draw the skin for game objects.
+    // The intention for this script is to have the explosion clouds fade instead of just disappearing.  The FadeOut() function is supposed to 
+    //decrement the "a" value (the opacity) for the renderer attached to the children of the Explosion (cloud) game object until it is clear.  
+    //Instead it just causes the game to crash.
 
    // public Renderer[] smokeFades;
     private float timeLeft=1.0f;
-
-
 
     void Start()
     {
        // smokeFades = GetComponentsInChildren<Renderer>();
     }
+
 	void Update ()
     {
        // StartCoroutine(FadeOut());
@@ -19,7 +23,6 @@ public class TimeForSmoke : MonoBehaviour {
         if (timeLeft < 0)
         {
             Destroy(this.gameObject, 0f); //removes instantiated smoke
-
         }
     }
    /* IEnumerator FadeOut()
@@ -36,7 +39,6 @@ public class TimeForSmoke : MonoBehaviour {
             }
             Debug.Log("3");
             yield return new WaitForSeconds(.1f);
-        }
-        
+        }     
     } */
 }

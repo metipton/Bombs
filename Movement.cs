@@ -1,25 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Movement : MonoBehaviour {
+public class Movement : MonoBehaviour
+{
+    //This script is attached to the player game object.  It tells the NavMeshAgent component to set its destination for the flag when the 
+    // player is alive.  It also has the player rotate in the direction where the laser from the right controller is pointing.  Still working on 
+    // what to do with the player once he is killed.
+
     Transform flag;
-   
-   public static UnityEngine.NavMeshAgent nav;
-	// Use this for initialization
+    public static UnityEngine.NavMeshAgent nav;
+
 	void Awake() {
         flag = GameObject.FindGameObjectWithTag("Flag").transform;
         nav = GetComponent<UnityEngine.NavMeshAgent>();
-
 	}
 	
-	// Update is called once per frame
 	void Update ()
     {
         if (TimeDestroy.isPlayerAlive)
         {
             NavWhenAlive();
         }
-
 	}
 
     void playerRotator()
@@ -40,6 +41,4 @@ public class Movement : MonoBehaviour {
             nav.Stop();
         }
     }
-
-
 }
