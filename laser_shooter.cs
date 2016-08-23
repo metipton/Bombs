@@ -2,13 +2,15 @@
 using System.Collections;
 
 public class laser_shooter : MonoBehaviour {
+    
+    // This script is attached to the player game object.  It will draw a red laser line from the gun player barrel in the direction of where
+    // the laser attached to the right controller is pointing.  This will be used to shoot other players later.
 
     public Transform GunBarrelEnd;
-    private LineRenderer laserline;
+    private LineRenderer laserline; //A line renderer is a component attached to the player gameobjects.  Draws lines.
 
-
-	void Awake () {
-
+	void Awake ()
+    {
         laserline = GetComponent<LineRenderer>();
         laserline.SetWidth(.005f, .005f);
 	}
@@ -18,10 +20,9 @@ public class laser_shooter : MonoBehaviour {
         lasershooter();
     }
 
-
     void lasershooter ()
     {
-        if (LaserPointer.IsRightTrigDown == true)
+        if (LaserPointer.IsRightTrigDown)
         {
             RaycastHit hit;
             GunBarrelEnd = this.gameObject.transform.GetChild(1);
@@ -30,18 +31,14 @@ public class laser_shooter : MonoBehaviour {
             {
                 Vector3 laserpoint = hit.point;
                 laserpoint.y = .6f;
-                laserline.SetPosition(0, GunBarrelEnd.position);
+                laserline.SetPosition(0, GunBarrelEnd.position); //Draws line from end of gun barrel to x and z of laser hit point.  Maintains y.
                 laserline.SetPosition(1, laserpoint);
             }
         }
         else
         {
-            laserline.SetPosition(0, Vector3.zero);
+            laserline.SetPosition(0, Vector3.zero); // this stops the line from being drawn when player is not holding down right trigger
             laserline.SetPosition(1, Vector3.zero);
         }
-
-        
-
-
     }
 }
